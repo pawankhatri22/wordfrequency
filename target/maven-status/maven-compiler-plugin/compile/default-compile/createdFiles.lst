@@ -1,0 +1,6 @@
+com\labforward\wordfrequency\controller\WordFrequencyController.class
+com\labforward\wordfrequency\dto\WordFrequencyDto.class
+com\labforward\wordfrequency\service\WordFrequencyService.class
+com\labforward\wordfrequency\util\LevenshteinDistance.class
+com\labforward\wordfrequency\notebook\NoteBook.class
+com\labforward\wordfrequency\WordfrequencyApplication.class

@@ -1,0 +1,221 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*:not(i) {
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #ae9cff;
+}
+.wrapper {
+  width: 100%;
+    position: absolute;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: 50px;
+    left: 50%;
+    max-width: 140vmin;
+    padding: 20px;
+}
+.container {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 30px 30px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 20px 40px rgba(38, 33, 61, 0.2);
+  box-shadow: 0 20px 40px rgba(38, 33, 61, 0.2);
+}
+a {
+  padding: 15px 0;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  color: #1f194c;
+  font-weight: 600;
+  -webkit-box-shadow: 0 20px 40px rgba(38, 33, 61, 0.2);
+  box-shadow: 0 20px 40px rgba(38, 33, 61, 0.2);
+  margin-top: 30px;
+}
+
+form{
+    padding: 40px 0px;
+
+}
+.search-box {
+  width: 146%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.search-box input {
+  padding: 5px;
+  width: 70%;
+  border: none;
+  outline: none;
+  border-bottom: 3px solid #ae9cff;
+}
+.search-box button {
+  padding: 15px 0;
+  width: 25%;
+  background-color: #ae9cff;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.result {
+  position: relative;
+}
+.result h3 {
+  font-size: 30px;
+  color: #1f194c;
+}
+.result .word {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 80px;
+}
+.result button {
+  background-color: transparent;
+  color: #ae9cff;
+  border: none;
+  outline: none;
+  font-size: 18px;
+}
+.result .details {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  color: #b3b6d4;
+  margin: 5px 0 20px 0;
+  font-size: 14px;
+}
+.word-meaning {
+  color: #575a7b;
+}
+.word-example {
+  color: #575a7b;
+  font-style: italic;
+  border-left: 5px solid #ae9cff;
+  padding-left: 20px;
+  margin-top: 30px;
+  font-size: 16px;
+}
+.error {
+  margin-top: 80px;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 40px 20px;
+  }
+  .search-box button {
+    font-size: 14px;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    
+    <div class="container">
+      <h2>Enter the word to search in labforward's current notebook</h2>
+      <p>Press Enter to clear the screen</p>
+      <form action="">
+      <div class="search-box">
+          <input id="search-bar" type="text" placeholder="Type the word here..."  />
+          <!-- <button id="search-btn">Search</button> -->
+        </div>
+      </form>
+
+      <h3 class="word-frequency"></h3>
+      <br>
+      <h3 class="word-similarity"></h3>
+      <div id="result" class="result word-list">
+
+
+      </div>
+    </div>
+   
+  </div>
+</body>
+</html>
+
+  <script>
+    let dataUrl = "http://localhost:8080/notebook?word=";
+const searchBar = document.querySelector("#search-bar");
+const list = document.querySelector(".word-list");
+const wordFrequency = document.querySelector(".word-frequency");
+const wordSim = document.querySelector(".word-similarity");
+// Featch data
+async function getData(searchTerm) {
+  try {
+    let response = await fetch(dataUrl+searchTerm);
+    let data = await response.json();
+
+    console.log("data = " );
+    console.log(data);
+    return data;
+   // return data.map(item => item.similarWords)
+  } catch(error) {
+    throw Error(`error:${error}`);
+  }
+}
+
+// Load elements on DOM
+function loadElements(words) {
+  console.log(words)
+  let frequency  = words.frequency;
+  let listElements = words.similarWords.map((word) => 
+    `<li>
+      ${word}
+    </li>`
+  ).join('')
+  
+  wordFrequency.innerHTML  = `Word Frequency &nbsp; : ` + frequency + `<br>`;
+  wordSim.innerHTML = `Similar Words`
+  list.innerHTML = listElements;
+}
+
+// Filter and Show list
+function showList(searchTerm){
+  // ToDo : getData if data has changed
+  getData(searchTerm)
+    .then(users => users)
+    .then(loadElements)
+}
+
+
+
+// Keyup eventlistener for search inpout
+searchBar.addEventListener('keyup', (event) => {
+  let searchTerm = event.target.value;
+  showList(searchTerm);
+})
+
+
+
+  </script>
