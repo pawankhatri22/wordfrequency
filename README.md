@@ -18,3 +18,18 @@ Project contains 1 API and a basic HTML UI
    2) UI : user can enter a word to be searched and UI will call above api to find word frequency and list of smiliar words
    
    ![image](https://user-images.githubusercontent.com/32278634/198061081-5db40a5f-45e5-4e71-81e3-fddadcf8e33a.png)
+
+
+## Steps to Setup
+* Note : It is maven based project. Please install and setup maven before using project. 
+
+#### 1)clone the project
+    git clone https://github.com/pawankhatri22/wordfrequency.git
+
+#### 2) run following commands
+    cd wordfrequency
+    mvn clean install
+    java -jar target/wordfrequency-0.0.1-SNAPSHOT.jar
+project will start running. you can use api in postman http://localhost:8080/notebook?word=Word 
+or you can open UI which will consume API.
+        
